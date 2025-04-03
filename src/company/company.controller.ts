@@ -25,7 +25,7 @@ export class CompanyController {
   }
 
   @MessagePattern('features.company.findOne')
-  findOne(@Payload() id: number) {
+  findOne(@Payload() id: string) {
     return this.companyService.findOne(id);
   }
 

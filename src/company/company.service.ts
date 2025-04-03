@@ -34,7 +34,7 @@ export class CompanyService {
       if (!user) {
         throw new RpcException({
           status: HttpStatus.NOT_FOUND,
-          message: 'Owner not found',
+          message: 'Propietario no encontrado',
         });
       }
 
@@ -130,12 +130,25 @@ export class CompanyService {
     }
   }
 
-  findAll() {
-    return `This action returns all company`;
+ async findAll() {
+    // 1️⃣ Verificar que la empresa exista
+    const companies = await this.companyRepository.find();
+    return companies;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
+  async findOne(id: string) {
+      // 1️⃣ Verificar que la empresa exista
+      const company = await this.companyRepository.findOneBy({
+        id
+      });
+
+      if (!company)
+        throw new RpcException({
+          status: HttpStatus.NOT_FOUND,
+          message: 'Empresa no encontrada',
+        });
+
+      return company;
   }
 
   update(id: number, updateCompanyDto: UpdateCompanyDto) {
